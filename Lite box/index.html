@@ -37,25 +37,28 @@
 	margin-left: -220px;
 	z-index: 1105;
 }
+.displaynone {
+display:none;
+}
 
 </style>
 </head>
 
 <body>
-<div class="clickMe">Click Me</div>
-<div class="PageOverLay">Light Box content comes here</div>
+<div class="clickMe">Click Me <span class="displaynone" >Light Box content comes here</span></div>
+<div class="PageOverLay"></div>
 
 </body>
 <script>
 $('.PageOverLay').css("opacity",.3);
 $('.clickMe').click(function() {
 	$('.PageOverLay').show();
-	var content = $(".PageOverLay").html();
+	var content = $(".clickMe span").html(); 
 	$('.clickMe').after('<div class="popupBox" align="center" >'+content+'<div>');
 });
 $('.PageOverLay').click(function() {
 	$('.popupBox').remove();
-	$('.PageOverLay').fadeOut();
+	$('.PageOverLay').fadeOut().hide();
 });
 </script>
 </html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Jquery gallery script</title>
+<meta name="author" content="Felix"/>
+<meta name="keywords" content="Gallery, Jquery gallery"/>
+<meta name="description" content="Jquery gallery script developed by felix"/>
+<style>
+#wrapper
+{
+	width:1004px;
+	margin:0px auto;
+	background-color:#fff;
+}
+.imgBox
+{
+	float:left;
+	min-height:60px;
+	padding-top:3px;
+	cursor:pointer;
+	position:relative;
+}
+#big_img 
+{
+	padding:3px;
+	background-color:#fff;
+	border:1px solid gray;
+	margin:3px;
+	width:285px;
+	height:175px;
+}
+.img
+{
+	padding:3px;
+	background-color:#fff;
+	border:1px solid gray;
+	margin:3px;
+	width:100px;
+	height:60px;
+}
+#galleryContainer 
+{
+	width:520px;
+	min-height:230px;
+	clear:both;
+	text-align:center;
+}
+.leftArrow {
+	float:left;
+	min-height:40px;
+	min-width:35px;
+	padding-top:30px;
+	padding-left:14px;
+}
+.rightArrow{
+	float:left;
+	min-height:40px;
+	padding-top:30px;
+}
+.pointer {
+	cursor:pointer;
+}
+#galleryThumb
+{
+	float:left;
+	width:480px;
+	height:75px;
+	overflow: hidden;
+	display:inline;
+}
+.seletedImg{
+	background:url(images/Arrow_Top.png) no-repeat 54px 0px;
+}
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+</head>
+<body>
+<div id="wrapper">
+	<div id="galleryContainer">
+		<img alt="" title="" src="images/res1.jpg"  id="big_img" class="img"/> 
+	</div>
+	<div class="leftArrow">
+			<img class="pointer" align="absmiddle" src="images/arrowleft.png" id="left_arrow" /><span id="loader">&nbsp;</span>
+	</div>
+	<div  id="galleryThumb">
+			<div class="imgBox seletedImg" ><img src="images/thumb/res1.jpg" class="img" /></div>
+			<div class="imgBox" ><img src="images/thumb/res1.jpg" class="img" /></div>
+			<div class="imgBox" ><img src="images/thumb/res1.jpg"  class="img" /></div>
+			<div class="imgBox" ><img src="images/thumb/res1.jpg"  class="img"/></div>
+			<div class="imgBox" ><img src="images/thumb/res1.jpg"  class="img"  style="display:none"/></div>
+			<div class="imgBox" ><img src="images/thumb/res1.jpg"  class="img"  style="display:none"/></div>
+			<div class="imgBox" ><img src="images/thumb/res1.jpg"  class="img"  style="display:none"  /></div>
+			<div class="imgBox" ><img src="images/thumb/res1.jpg" style="display:none"  style="display:none" class="img" /></div>
+			<div class="imgBox" ><img src="images/thumb/res1.jpg"   style="display:none" class="img" /></div>
+			<div class="imgBox" ><img src="images/thumb/res1.jpg"  style="display:none" class="img"/></div>
+			<div class="imgBox" style=""><img src="images/thumb/res1.jpg"  style="display:none" class="img"/></div>
+	</div>
+	<div class="rightArrow">
+		<img align="absmiddle" src="images/arrowright.png" class="pointer" id="right_arrow"/>
+	</div> 
+</div> 
+</body>
+</html>
+<script>
+ 
+/*###	code for rotate image script starts here	###*/
+$(document).ready(function(){
+	var sWidth = 70;
+	var body   = $("#wrapper").offset().left;
+
+	var left   = $(".imgBox:first").offset().left;
+	var move   = left+sWidth-body;
+	var len    = $(".imgBox").length;
+	var tWidth = len*sWidth;
+	var cur    = 0;
+	var dimage = 3;
+	$("#inner_div").width(tWidth);
+
+$(".imgBox").mouseover(function(){
+	 $(this).fadeTo(10,.43);
+}).mouseout(function(){
+	 $(this).fadeTo(10,1);
+});
+$("#left_arrow").css("opacity",.20);
+if(len<=4)
+	$("#right_arrow").css("opacity",.20);
+
+
+$(".imgBox").after().hide(300);	
+$(".imgBox").after().show(700);
+$("#left_arrow").click(function(){
+	
+
+	var val = parseInt(move/sWidth)-1;
+	var img_src = $(".imgBox:nth-child("+val+") img").attr("src");	//	change the img src	
+	if(val<1)
+	{
+		$("#left_arrow").css("opacity",.20);
+		return false;
+	}
+	if(move   == left+sWidth){
+		$("#left_arrow").css("opacity",.20);
+		return false;
+	}else
+		$("#left_arrow").css("opacity",1);
+	$(".imgBox:nth-child("+parseInt(val)+") img").show(600);
+	changeImage(img_src);
+	$(".imgBox:nth-child("+parseInt(val+4)+") img").hide(600);
+	$(".imgBox:nth-child("+parseInt(val)+")").addClass('seletedImg');
+	move -=sWidth;
+	if(val<=1){		
+		$("#left_arrow").css("opacity",.20);
+	}
+	if(tWidth >move+dimage*120){
+		$("#right_arrow").css("opacity",1);
+	}
+});
+$("#right_arrow").click(function(){
+	var val = parseInt(move/sWidth)+1;	
+	var img_src = $(".imgBox:nth-child("+val+") img").attr("src");	//	change the img src	
+	if(val > len-3)
+	{
+		return false;
+	}
+	if(tWidth < move+dimage*sWidth){
+		$("#right_arrow").css("opacity",.20);
+		return false;
+	}
+	else
+		$("#right_arrow").css("opacity",1);
+	$("#left_arrow").css("opacity",1);
+	$(".imgBox:nth-child("+parseInt(val+3)+") img").show(600);
+	changeImage(img_src);
+	$(".imgBox:nth-child("+parseInt(move/sWidth)+") img").hide(600);
+	$(".imgBox:nth-child("+parseInt(val)+")").addClass('seletedImg');
+	move +=sWidth;	
+	if(tWidth < move+dimage*sWidth){
+		$("#right_arrow").css("opacity",.20);
+		return false;
+	}
+
+});
+});
+
+/*###	code for rotate image script ends here	###*/
+
+/*###	code for change big image starts here	###*/
+
+function changeImage(src_val){
+	$("#big_img").clearQueue();
+		$("#big_img").fadeTo(1,.3);
+		$(".imgBox").removeClass('seletedImg');
+	var src = src_val.replace("thumb/", "");
+	$("#big_img").fadeTo(1000,1);
+	$("#big_img").attr("src",src);
+}
+	$(".imgBox img").mouseover(function(){
+		var src_val = $(this).attr("src");
+		$(".imgBox").removeClass('seletedImg');
+		$(this).parent().toggleClass('seletedImg');
+		var src = src_val.replace("thumb/", "");
+			$("#big_img").clearQueue();
+			$("#big_img").fadeTo(1,.3);
+			$("#big_img").fadeTo(1000,1);
+			$("#big_img").attr("src",src);
+	});
+
+/*###	code for change big image ends here	###*/
+</script>
