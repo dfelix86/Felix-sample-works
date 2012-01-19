@@ -1,0 +1,61 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+<title> Lite Box document </title>
+<meta name="generator" content="editplus">
+<meta name="author" content="">
+<meta name="keywords" content="">
+<meta name="description" content="">
+
+<script type="text/javascript" src="jquery.js"></script>
+<style>
+.PageOverLay {
+	position:absolute;
+	top:0px;
+	left:0px;
+	background-color:#000;
+	opacity:.3;
+	z-index:19;
+	width:100%;
+	height:100%;
+	display:none;
+}
+.clickMe {
+	color:blue;
+	cursor:pointer;
+}
+.popupBox {
+    border:5px solid #d8e2bc;
+	background-color:#fcfcfc;
+	width:430px;
+	margin:0px auto;
+	height:80px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -40px;
+	margin-left: -220px;
+	z-index: 1105;
+}
+
+</style>
+</head>
+
+<body>
+<div class="clickMe">Click Me</div>
+<div class="PageOverLay">Light Box content comes here</div>
+
+</body>
+<script>
+$('.PageOverLay').css("opacity",.3);
+$('.clickMe').click(function() {
+	$('.PageOverLay').show();
+	var content = $(".PageOverLay").html();
+	$('.clickMe').after('<div class="popupBox" align="center" >'+content+'<div>');
+});
+$('.PageOverLay').click(function() {
+	$('.popupBox').remove();
+	$('.PageOverLay').fadeOut();
+});
+</script>
+</html>
