@@ -1,0 +1,124 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+<title> Mouse over move document </title>
+<meta name="generator" content="editplus">
+<meta name="author" content="">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<script type="text/javascript" src="jquery-latest.min.js" charset="utf-8"></script>
+
+</head>
+<style>
+.div {
+	width:600px;
+	border:1px solid gray;
+	height:400px;
+	overflow:hidden;
+}
+.top {
+		height:50px;
+		width:600px;
+		position:absolute;
+		z-index:10;
+		cursor:move;
+}
+.bottom {
+	height:50px;
+	width:600px;
+	position:absolute;
+	margin-top:-50px;
+	z-index:10;
+	cursor:move;
+}
+.img {
+	position:relative;
+}
+.left {
+		
+		height:300px;
+		width:50px;
+		position:absolute;
+		margin-top:50px;
+		z-index:10;
+		top:140px;
+		cursor:move;
+}
+.right {
+		height:300px;
+		width:50px;
+		position:absolute;
+		top:140px;
+		margin-top:50px;
+		z-index:10;
+		cursor:move;
+
+}
+</style>
+<body style="text-align:center;">
+<div align="center" class="container" >
+	<div class="right"><img  src="right_arrow.png" class="nav"  /></div >
+	<div class="top"><img  src="top_inactive_arrow.png" class="nav"  /></div >
+	<div class="left"><img  src="left_inactive_arrow.png" class="nav" /></div >
+	<div class="div"><img  src="1.jpg" class="img" /></div>	
+	<div class="bottom"><img  src="down_arrow.png" class="nav" /></div >
+</div>
+</body>
+</html>
+<script>
+$(document).ready(function() {
+	var heght = $('.img').height();
+	var widt = $('.img').width();
+	var imgTop	= $(".div").offset().top;
+	var imgLeft = $(".div").offset().left;
+
+	$('.top').css("left",imgLeft);
+	$('.left').css("left",imgLeft);
+	$('.bottom').css("top",imgTop+400);
+	$('.bottom').css("left",imgLeft);
+	$('.right').css("left",imgLeft+550);
+
+$('.top').mouseover(function() {
+	$('.top').find("img").attr("src","top_inactive_arrow.png");
+	$('.img').stop();
+	$('.img').animate({"top":"0px"},1500);
+	$('.bottom').find("img").attr("src","down_arrow.png");
+});
+$('.bottom').mouseover(function() {
+
+	$('.bottom').find("img").attr("src","bottom_inactive_arrow.png");
+	$('.img').stop();
+	var val = heght-400;
+	if(val <=0)
+		val = -1*val;
+	$('.img').animate({"top":"-"+val+"px"}, 1500);
+	$('.top').find("img").attr("src","top_arrow.png");
+
+});
+$('.left').mouseover(function() {
+	$('.right').find("img").attr("src","right_arrow.png");
+	$('.img').stop();
+	$('.img').animate({"left":"0px"}, 1500);
+	$('.left').find("img").attr("src","left_inactive_arrow.png");
+});
+$('.right').mouseover(function() {
+		$('.img').stop();
+	$('.left').find("img").attr("src","left_arrow.png");
+	var val = widt-600;
+	if(val <=0)
+		val = -1*val;
+	$('.img').animate({"left":"-"+val+"px"},1500);
+	$('.right').find("img").delay(1500).attr("src","right_inactive_arrow.png");
+});
+
+$(".container").mouseover(function() {
+	$(".nav").show();
+
+}).mouseleave(function(){
+	$(".nav").hide();
+});
+$(".nav").hide();
+
+});
+</script>
+
